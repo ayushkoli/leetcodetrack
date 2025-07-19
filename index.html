@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode Problem Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, Arial, sans-serif;
+            background: #1A1A1A;
+            color: #fff;
+            min-height: 100vh;
+            padding: 24px 0;
+        }
+
+        .container {
+            width: 95vw;
+            max-width: 1400px;
+            
+            margin: 0 auto;
+            background: #222;
+            border-radius: 8px;
+            border: 1px solid #444;
+            box-shadow: none;
+            overflow: hidden;
+        }
+
+        .header {
+            border-bottom: 1px solid #444;
+            padding: 32px 32px 16px 32px;
+            text-align: left;
+            background: #222;
+        }
+
+        .header h1 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: #FFA116;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 8px;
+            font-size: 1.05rem;
+            color: #fff;
+        }
+        .stat-label {
+            color: #bbb;
+            font-size: 0.97em;
+        }
+        .stat-number {
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .controls {
+            padding: 16px 32px;
+            background: #222;
+            border-bottom: 1px solid #444;
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box, .filter-select {
+            min-width: 180px;
+            padding: 10px 14px;
+            border: 1.5px solid #333;
+            border-radius: 7px;
+            font-size: 15px;
+            background: #181818;
+            color: #fff;
+            box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+        .search-box:focus, .filter-select:focus {
+            outline: none;
+            border-color: #FFA116;
+            background: #232323;
+            box-shadow: 0 0 0 2px #FFA11644;
+        }
+        .search-box:hover, .filter-select:hover {
+            border-color: #FFA116;
+            background: #232323;
+        }
+        .filter-select {
+            cursor: pointer;
+        }
+
+        .export-btn {
+            background: #FFA116;
+            color: #181818;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 5px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .export-btn:hover {
+            background: #ffb84d;
+            color: #222;
+        }
+
+        .table-container {
+            padding: 20px;
+            overflow-x: auto;
+            max-height: 70vh;
+            background: #222;
+        }
+
+        /* Custom scrollbar for table container */
+        .table-container::-webkit-scrollbar {
+            height: 10px;
+            background: #111;
+        }
+        .table-container::-webkit-scrollbar-thumb {
+            background: #FFA116;
+            border-radius: 6px;
+        }
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: #ffb84d;
+        }
+        .table-container::-webkit-scrollbar-track {
+            background: #111;
+        }
+        /* Firefox */
+        .table-container {
+            scrollbar-color: #FFA116 #111;
+            scrollbar-width: thin;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+            background: #222;
+        }
+
+        th, td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #333;
+            text-align: left;
+        }
+        th {
+            background: #222;
+            color: #FFA116;
+            font-weight: 700;
+            font-size: 1em;
+            border-bottom: 2px solid #FFA116;
+        }
+        tr.completed {
+            background: #282828;
+        }
+        tr.completed:hover {
+            background: #232323;
+        }
+        tr:hover {
+            background: #181818;
+        }
+        .category-cell {
+            font-weight: 600;
+            color: #fff;
+        }
+        .problem-link {
+            color: #FFA116;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .problem-link:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            accent-color: #FFA116;
+            cursor: pointer;
+            background: #181818;
+            border-radius: 3px;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #444;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 18px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #FFA116;
+            transition: width 0.5s;
+            border-radius: 3px;
+        }
+        @media (max-width: 900px) {
+            .container {
+                width: 100vw;
+                max-width: 100vw;
+            }
+            .header, .controls {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            .stats {
+                gap: 16px;
+                font-size: 0.98em;
+            }
+            th, td {
+                padding: 8px 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>LeetCode Problem Tracker</h1>
+            <div class="stats">
+                <div><span class="stat-label">Total:</span> <span class="stat-number" id="totalProblems">0</span></div>
+                <div><span class="stat-label">Completed:</span> <span class="stat-number" id="completedProblems">0</span></div>
+                <div><span class="stat-label">Progress:</span> <span class="stat-number" id="progressPercent">0%</span></div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <input type="text" class="search-box" id="searchBox" placeholder="Search problems, categories, or topics...">
+            <select class="filter-select" id="categoryFilter">
+                <option value="">All Categories</option>
+            </select>
+            <select class="filter-select" id="statusFilter">
+                <option value="">All Status</option>
+                <option value="completed">Completed</option>
+                <option value="pending">Not Completed</option>
+            </select>
+            <button class="export-btn" onclick="exportToCSV()">Export CSV</button>
+        </div>
+
+        <div class="table-container">
+            <table id="problemTable">
+                <thead>
+                    <tr>
+                        <th>Sr No</th>
+                        <th>Category</th>
+                        <th>Problem Name</th>
+                        <th>LeetCode Link</th>
+                        <th>Completed</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const problemsData = [
+            {"Category": "Arrays & Hashing", "Sub-Category": "Hashing", "Problem Name": "Contains Duplicate", "LeetCode Link": "https://leetcode.com/problems/contains-duplicate/", "Check": false},
+            {"Category": "Arrays & Hashing", "Sub-Category": "Hashing", "Problem Name": "Valid Anagram", "LeetCode Link": "https://leetcode.com/problems/valid-anagram/", "Check": false},
+            {"Category": "Arrays & Hashing", "Sub-Category": "Hashing", "Problem Name": "Two Sum", "LeetCode Link": "https://leetcode.com/problems/two-sum/", "Check": false},
+            {"Category": "Arrays & Hashing", "Sub-Category": "Hashing", "Problem Name": "Group Anagrams", "LeetCode Link": "https://leetcode.com/problems/group-anagrams/", "Check": false},
+            {"Category": "Arrays & Hashing", "Sub-Category": "Hashing", "Problem Name": "Top K Frequent Elements", "LeetCode Link": "https://leetcode.com/problems/top-k-frequent-elements/", "Check": false},
+            {"Category": "Arrays & Hashing", "Sub-Category": "Hashing", "Problem Name": "Encode and Decode Strings", "LeetCode Link": "https://leetcode.com/problems/encode-and-decode-strings/", "Check": false},
+            {"Category": "Arrays & Hashing", "Sub-Category": "Arrays", "Problem Name": "Product of Array Except Self", "LeetCode Link": "https://leetcode.com/problems/product-of-array-except-self/", "Check": false},
+            {"Category": "Arrays & Hashing", "Sub-Category": "Arrays", "Problem Name": "Valid Sudoku", "LeetCode Link": "https://leetcode.com/problems/valid-sudoku/", "Check": false},
+            {"Category": "Arrays & Hashing", "Sub-Category": "Arrays", "Problem Name": "Longest Consecutive Sequence", "LeetCode Link": "https://leetcode.com/problems/longest-consecutive-sequence/", "Check": false},
+            {"Category": "Two Pointers", "Sub-Category": "Two Pointers", "Problem Name": "Valid Palindrome", "LeetCode Link": "https://leetcode.com/problems/valid-palindrome/", "Check": false},
+            {"Category": "Two Pointers", "Sub-Category": "Two Pointers", "Problem Name": "Two Sum II - Input Array Is Sorted", "LeetCode Link": "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/", "Check": false},
+            {"Category": "Two Pointers", "Sub-Category": "Two Pointers", "Problem Name": "3Sum", "LeetCode Link": "https://leetcode.com/problems/3sum/", "Check": false},
+            {"Category": "Two Pointers", "Sub-Category": "Two Pointers", "Problem Name": "Container With Most Water", "LeetCode Link": "https://leetcode.com/problems/container-with-most-water/", "Check": false},
+            {"Category": "Two Pointers", "Sub-Category": "Two Pointers", "Problem Name": "Trapping Rain Water", "LeetCode Link": "https://leetcode.com/problems/trapping-rain-water/", "Check": false},
+            {"Category": "Sliding Window", "Sub-Category": "Sliding Window", "Problem Name": "Best Time to Buy And Sell Stock", "LeetCode Link": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/", "Check": false},
+            {"Category": "Sliding Window", "Sub-Category": "Sliding Window", "Problem Name": "Longest Substring Without Repeating Characters", "LeetCode Link": "https://leetcode.com/problems/longest-substring-without-repeating-characters/", "Check": false},
+            {"Category": "Sliding Window", "Sub-Category": "Sliding Window", "Problem Name": "Longest Repeating Character Replacement", "LeetCode Link": "https://leetcode.com/problems/longest-repeating-character-replacement/", "Check": false},
+            {"Category": "Sliding Window", "Sub-Category": "Sliding Window", "Problem Name": "Permutation In String", "LeetCode Link": "https://leetcode.com/problems/permutation-in-string/", "Check": false},
+            {"Category": "Sliding Window", "Sub-Category": "Sliding Window", "Problem Name": "Minimum Window Substring", "LeetCode Link": "https://leetcode.com/problems/minimum-window-substring/", "Check": false},
+            {"Category": "Sliding Window", "Sub-Category": "Sliding Window", "Problem Name": "Sliding Window Maximum", "LeetCode Link": "https://leetcode.com/problems/sliding-window-maximum/", "Check": false},
+            {"Category": "Stack", "Sub-Category": "Stack", "Problem Name": "Valid Parentheses", "LeetCode Link": "https://leetcode.com/problems/valid-parentheses/", "Check": false},
+            {"Category": "Stack", "Sub-Category": "Stack", "Problem Name": "Min Stack", "LeetCode Link": "https://leetcode.com/problems/min-stack/", "Check": false},
+            {"Category": "Stack", "Sub-Category": "Stack", "Problem Name": "Evaluate Reverse Polish Notation", "LeetCode Link": "https://leetcode.com/problems/evaluate-reverse-polish-notation/", "Check": false},
+            {"Category": "Stack", "Sub-Category": "Stack", "Problem Name": "Generate Parentheses", "LeetCode Link": "https://leetcode.com/problems/generate-parentheses/", "Check": false},
+            {"Category": "Stack", "Sub-Category": "Stack", "Problem Name": "Daily Temperatures", "LeetCode Link": "https://leetcode.com/problems/daily-temperatures/", "Check": false},
+            {"Category": "Stack", "Sub-Category": "Stack", "Problem Name": "Car Fleet", "LeetCode Link": "https://leetcode.com/problems/car-fleet/", "Check": false},
+            {"Category": "Stack", "Sub-Category": "Stack", "Problem Name": "Largest Rectangle In Histogram", "LeetCode Link": "https://leetcode.com/problems/largest-rectangle-in-histogram/", "Check": false},
+            {"Category": "Binary Search", "Sub-Category": "Binary Search", "Problem Name": "Binary Search", "LeetCode Link": "https://leetcode.com/problems/binary-search/", "Check": false},
+            {"Category": "Binary Search", "Sub-Category": "Binary Search", "Problem Name": "Search a 2D Matrix", "LeetCode Link": "https://leetcode.com/problems/search-a-2d-matrix/", "Check": false},
+            {"Category": "Binary Search", "Sub-Category": "Binary Search", "Problem Name": "Koko Eating Bananas", "LeetCode Link": "https://leetcode.com/problems/koko-eating-bananas/", "Check": false},
+            {"Category": "Binary Search", "Sub-Category": "Binary Search", "Problem Name": "Find Minimum In Rotated Sorted Array", "LeetCode Link": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/", "Check": false},
+            {"Category": "Binary Search", "Sub-Category": "Binary Search", "Problem Name": "Search In Rotated Sorted Array", "LeetCode Link": "https://leetcode.com/problems/search-in-rotated-array/", "Check": false},
+            {"Category": "Binary Search", "Sub-Category": "Binary Search", "Problem Name": "Time Based Key Value Store", "LeetCode Link": "https://leetcode.com/problems/time-based-key-value-store/", "Check": false},
+            {"Category": "Binary Search", "Sub-Category": "Binary Search", "Problem Name": "Median of Two Sorted Arrays", "LeetCode Link": "https://leetcode.com/problems/median-of-two-sorted-arrays/", "Check": false},
+            {"Category": "Linked List", "Sub-Category": "Linked List", "Problem Name": "Reverse Linked List", "LeetCode Link": "https://leetcode.com/problems/reverse-linked-list/", "Check": false},
+            {"Category": "Linked List", "Sub-Category": "Linked List", "Problem Name": "Merge Two Sorted Lists", "LeetCode Link": "https://leetcode.com/problems/merge-two-sorted-lists/", "Check": false},
+            {"Category": "Linked List", "Sub-Category": "Linked List", "Problem Name": "Reorder List", "LeetCode Link": "https://leetcode.com/problems/reorder-list/", "Check": false},
+            {"Category": "Linked List", "Sub-Category": "Linked List", "Problem Name": "Remove Nth Node From End of List", "LeetCode Link": "https://leetcode.com/problems/remove-nth-node-from-end-of-list/", "Check": false},
+            {"Category": "Linked List", "Sub-Category": "Linked List", "Problem Name": "Copy List With Random Pointer", "LeetCode Link": "https://leetcode.com/problems/copy-list-with-random-pointer/", "Check": false},
+            {"Category": "Linked List", "Sub-Category": "Linked List", "Problem Name": "Add Two Numbers", "LeetCode Link": "https://leetcode.com/problems/add-two-numbers/", "Check": false},
+            {"Category": "Linked List", "Sub-Category": "Linked List", "Problem Name": "Linked List Cycle", "LeetCode Link": "https://leetcode.com/problems/linked-list-cycle/", "Check": false},
+            {"Category": "Linked List", "Sub-Category": "Linked List", "Problem Name": "Find The Duplicate Number", "LeetCode Link": "https://leetcode.com/problems/find-the-duplicate-number/", "Check": false},
+            {"Category": "Linked List", "Sub-Category": "Linked List", "Problem Name": "LRU Cache", "LeetCode Link": "https://leetcode.com/problems/lru-cache/", "Check": false},
+            {"Category": "Linked List", "Sub-Category": "Linked List", "Problem Name": "Merge K Sorted Lists", "LeetCode Link": "https://leetcode.com/problems/merge-k-sorted-lists/", "Check": false},
+            {"Category": "Linked List", "Sub-Category": "Linked List", "Problem Name": "Reverse Nodes In K Group", "LeetCode Link": "https://leetcode.com/problems/reverse-nodes-in-k-group/", "Check": false},
+            {"Category": "Matrix", "Sub-Category": "Matrix", "Problem Name": "Rotate Image", "LeetCode Link": "https://leetcode.com/problems/rotate-image/", "Check": false},
+            {"Category": "Matrix", "Sub-Category": "Matrix", "Problem Name": "Spiral Matrix", "LeetCode Link": "https://leetcode.com/problems/spiral-matrix/", "Check": false},
+            {"Category": "Matrix", "Sub-Category": "Matrix", "Problem Name": "Set Matrix Zeroes", "LeetCode Link": "https://leetcode.com/problems/set-matrix-zeroes/", "Check": false},
+            {"Category": "Math & Geometry", "Sub-Category": "Math", "Problem Name": "Happy Number", "LeetCode Link": "https://leetcode.com/problems/happy-number/", "Check": false},
+            {"Category": "Math & Geometry", "Sub-Category": "Math", "Problem Name": "Plus One", "LeetCode Link": "https://leetcode.com/problems/plus-one/", "Check": false},
+            {"Category": "Math & Geometry", "Sub-Category": "Math", "Problem Name": "Pow(x, n)", "LeetCode Link": "https://leetcode.com/problems/powx-n/", "Check": false},
+            {"Category": "Math & Geometry", "Sub-Category": "Math", "Problem Name": "Multiply Strings", "LeetCode Link": "https://leetcode.com/problems/multiply-strings/", "Check": false},
+            {"Category": "Math & Geometry", "Sub-Category": "Geometry", "Problem Name": "Detect Squares", "LeetCode Link": "https://leetcode.com/problems/detect-squares/", "Check": false},
+            {"Category": "Heap / Priority Queue", "Sub-Category": "Heap", "Problem Name": "Kth Largest Element In a Stream", "LeetCode Link": "https://leetcode.com/problems/kth-largest-element-in-a-stream/", "Check": false},
+            {"Category": "Heap / Priority Queue", "Sub-Category": "Heap", "Problem Name": "Last Stone Weight", "LeetCode Link": "https://leetcode.com/problems/last-stone-weight/", "Check": false},
+            {"Category": "Heap / Priority Queue", "Sub-Category": "Heap", "Problem Name": "K Closest Points to Origin", "LeetCode Link": "https://leetcode.com/problems/k-closest-points-to-origin/", "Check": false},
+            {"Category": "Heap / Priority Queue", "Sub-Category": "Heap", "Problem Name": "Kth Largest Element In An Array", "LeetCode Link": "https://leetcode.com/problems/kth-largest-element-in-an-array/", "Check": false},
+            {"Category": "Heap / Priority Queue", "Sub-Category": "Heap", "Problem Name": "Task Scheduler", "LeetCode Link": "https://leetcode.com/problems/task-scheduler/", "Check": false},
+            {"Category": "Heap / Priority Queue", "Sub-Category": "Heap", "Problem Name": "Design Twitter", "LeetCode Link": "https://leetcode.com/problems/design-twitter/", "Check": false},
+            {"Category": "Heap / Priority Queue", "Sub-Category": "Heap", "Problem Name": "Find Median From Data Stream", "LeetCode Link": "https://leetcode.com/problems/find-median-from-data-stream/", "Check": false},
+            {"Category": "Sorting Algorithms", "Sub-Category": "Theory + Coding", "Problem Name": "Bubble Sort", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "Sorting Algorithms", "Sub-Category": "Theory + Coding", "Problem Name": "Selection Sort", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "Sorting Algorithms", "Sub-Category": "Theory + Coding", "Problem Name": "Insertion Sort", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "Sorting Algorithms", "Sub-Category": "Theory + Coding", "Problem Name": "Merge Sort", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "Sorting Algorithms", "Sub-Category": "Theory + Coding", "Problem Name": "Quick Sort", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "Recursion & Backtracking", "Sub-Category": "Basic Recursion", "Problem Name": "Factorial using recursion", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "Recursion & Backtracking", "Sub-Category": "Basic Recursion", "Problem Name": "Fibonacci using recursion", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "Recursion & Backtracking", "Sub-Category": "Backtracking", "Problem Name": "Subset / Combination / Permutation generation", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "Recursion & Backtracking", "Sub-Category": "Backtracking", "Problem Name": "N-Queens (Basic Idea)", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "Graph Problems", "Sub-Category": "Basic Graph", "Problem Name": "BFS (Breadth-First Search)", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "Graph Problems", "Sub-Category": "Basic Graph", "Problem Name": "DFS (Depth-First Search)", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "Graph Problems", "Sub-Category": "Basic Graph", "Problem Name": "Connected Components (Undirected)", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "Graph Problems", "Sub-Category": "Basic Graph", "Problem Name": "Cycle Detection (Directed & Undirected)", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "Dynamic Programming", "Sub-Category": "Basic Patterns", "Problem Name": "Fibonacci with DP", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "Dynamic Programming", "Sub-Category": "Basic Patterns", "Problem Name": "Climbing Stairs", "LeetCode Link": "https://leetcode.com/problems/climbing-stairs/", "Check": false},
+            {"Category": "Dynamic Programming", "Sub-Category": "Basic Patterns", "Problem Name": "Coin Change", "LeetCode Link": "https://leetcode.com/problems/coin-change/", "Check": false},
+            {"Category": "Dynamic Programming", "Sub-Category": "Basic Patterns", "Problem Name": "Longest Common Subsequence (LCS)", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "Greedy Algorithms", "Sub-Category": "Greedy", "Problem Name": "Activity Selection Problem", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "Greedy Algorithms", "Sub-Category": "Greedy", "Problem Name": "Job Scheduling with Deadlines", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "Greedy Algorithms", "Sub-Category": "Greedy", "Problem Name": "Minimum Platforms", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "Bit Manipulation", "Sub-Category": "Basics", "Problem Name": "Count Set Bits", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "Bit Manipulation", "Sub-Category": "Basics", "Problem Name": "Check if Power of 2", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "Bit Manipulation", "Sub-Category": "Basics", "Problem Name": "Single Number Problem", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "String Algorithms", "Sub-Category": "Advanced Concepts", "Problem Name": "KMP Pattern Matching (Only Concept)", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "String Algorithms", "Sub-Category": "Advanced Concepts", "Problem Name": "Rabin Karp (Only Concept)", "LeetCode Link": "N/A", "Check": false},
+          
+  
+
+
+            {"Category": "DBMS", "Sub-Category": "DBMS", "Problem Name": "SQL Joins, Normalization, ACID", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "OOP", "Sub-Category": "OOPs", "Problem Name": "OOPs Pillars with Real Examples", "LeetCode Link": "N/A", "Check": false},
+            {"Category": "CNS", "Sub-Category": "OS", "Problem Name": "Deadlock, Scheduling, Paging", "LeetCode Link": "N/A", "Check": false},
+             
+        ];
+
+        let filteredData = [...problemsData];
+
+        // --- Add localStorage support ---
+        function saveProgress() {
+            localStorage.setItem('leetcodeProgress', JSON.stringify(problemsData));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('leetcodeProgress');
+            if (saved) {
+                const savedData = JSON.parse(saved);
+                problemsData.forEach((problem, i) => {
+                    if (savedData[i]) {
+                        problem.Check = savedData[i].Check;
+                    }
+                });
+            }
+        }
+        // --- End localStorage support ---
+
+        function initializeApp() {
+            loadProgress();
+            populateTable();
+            populateCategoryFilter();
+            updateStats();
+            setupEventListeners();
+        }
+
+        function populateTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            filteredData.forEach((problem, index) => {
+                const row = document.createElement('tr');
+                row.className = problem.Check ? 'completed' : '';
+                // For Sr No 86 and above, use Sub-Category as Category
+                const displayCategory = (index + 1 >= 86) ? problem['Sub-Category'] : problem.Category;
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td class="category-cell">${displayCategory}</td>
+                    <td>${problem['Problem Name']}</td>
+                    <td>
+                        ${problem['LeetCode Link'] !== 'N/A' ? 
+                            `<a href="${problem['LeetCode Link']}" target="_blank" class="problem-link">View Problem</a>` : 
+                            'N/A'
+                        }
+                    </td>
+                    <td>
+                        <input type="checkbox" class="checkbox" 
+                               ${problem.Check ? 'checked' : ''} 
+                               onchange="toggleProblem(${problemsData.indexOf(problem)})">
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function populateCategoryFilter() {
+            const categoryFilter = document.getElementById('categoryFilter');
+            const categories = [...new Set(problemsData.map(p => p.Category))];
+            
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categoryFilter.appendChild(option);
+            });
+        }
+
+        function toggleProblem(index) {
+            problemsData[index].Check = !problemsData[index].Check;
+            saveProgress();
+            applyFilters();
+            updateStats();
+        }
+
+        function updateStats() {
+            const total = problemsData.length;
+            const completed = problemsData.filter(p => p.Check).length;
+            const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+            document.getElementById('totalProblems').textContent = total;
+            document.getElementById('completedProblems').textContent = completed;
+            document.getElementById('progressPercent').textContent = `${percentage}%`;
+            document.getElementById('progressFill').style.width = `${percentage}%`;
+        }
+
+        function setupEventListeners() {
+            document.getElementById('searchBox').addEventListener('input', applyFilters);
+            document.getElementById('categoryFilter').addEventListener('change', applyFilters);
+            document.getElementById('statusFilter').addEventListener('change', applyFilters);
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            filteredData = problemsData.filter(problem => {
+                const matchesSearch = 
+                    problem.Category.toLowerCase().includes(searchTerm) ||
+                    problem['Sub-Category'].toLowerCase().includes(searchTerm) ||
+                    problem['Problem Name'].toLowerCase().includes(searchTerm);
+                
+                const matchesCategory = !categoryFilter || problem.Category === categoryFilter;
+                
+                const matchesStatus = 
+                    !statusFilter || 
+                    (statusFilter === 'completed' && problem.Check) ||
+                    (statusFilter === 'pending' && !problem.Check);
+
+                return matchesSearch && matchesCategory && matchesStatus;
+            });
+
+            populateTable();
+        }
+
+        function exportToCSV() {
+            const csvContent = [
+                ['Sr No', 'Category', 'Problem Name', 'LeetCode Link', 'Completed'],
+                ...problemsData.map((p, i) => [
+                    i + 1,
+                    (i + 1 >= 86) ? p['Sub-Category'] : p.Category,
+                    p['Problem Name'],
+                    p['LeetCode Link'],
+                    p.Check ? 'TRUE' : 'FALSE'
+                ])
+            ];
+
+            const csvString = csvContent.map(row => 
+                row.map(field => `"${field}"`).join(',')
+            ).join('\n');
+
+            const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'leetcode_progress.csv');
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Initialize the app when page loads
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+</html>
