@@ -270,6 +270,14 @@
 
     <script>
         const problemsData = [
+            {"Category": "Arrays & Hashing", "Sub-Category": "Arrays", "Problem Name": "Majority Element", "LeetCode Link": "https://leetcode.com/problems/majority-element/", "Check": false},
+            {"Category": "Arrays & Hashing", "Sub-Category": "Arrays", "Problem Name": "Reverse String", "LeetCode Link": "https://leetcode.com/problems/reverse-string/", "Check": false},
+            {"Category": "Arrays & Hashing", "Sub-Category": "Arrays", "Problem Name": "Merge Sorted Array", "LeetCode Link": "https://leetcode.com/problems/merge-sorted-array/", "Check": false},
+            {"Category": "Arrays & Hashing", "Sub-Category": "Arrays", "Problem Name": "Rotate Array", "LeetCode Link": "https://leetcode.com/problems/rotate-array/", "Check": false},
+            {"Category": "Arrays & Hashing", "Sub-Category": "Arrays", "Problem Name": "Remove Element", "LeetCode Link": "https://leetcode.com/problems/remove-element/", "Check": false},
+            {"Category": "Arrays & Hashing", "Sub-Category": "Arrays", "Problem Name": "Find Peak Element", "LeetCode Link": "https://leetcode.com/problems/find-peak-element/", "Check": false},
+            {"Category": "Arrays & Hashing", "Sub-Category": "Arrays", "Problem Name": "Maximum Product Subarray", "LeetCode Link": "https://leetcode.com/problems/maximum-product-subarray/", "Check": false},
+            {"Category": "Arrays & Hashing", "Sub-Category": "Arrays", "Problem Name": "Maximum Sum Circular Subarray", "LeetCode Link": "https://leetcode.com/problems/maximum-sum-circular-subarray/", "Check": false},
             {"Category": "Arrays & Hashing", "Sub-Category": "Hashing", "Problem Name": "Contains Duplicate", "LeetCode Link": "https://leetcode.com/problems/contains-duplicate/", "Check": false},
             {"Category": "Arrays & Hashing", "Sub-Category": "Hashing", "Problem Name": "Valid Anagram", "LeetCode Link": "https://leetcode.com/problems/valid-anagram/", "Check": false},
             {"Category": "Arrays & Hashing", "Sub-Category": "Hashing", "Problem Name": "Two Sum", "LeetCode Link": "https://leetcode.com/problems/two-sum/", "Check": false},
@@ -355,15 +363,70 @@
             {"Category": "Bit Manipulation", "Sub-Category": "Basics", "Problem Name": "Single Number Problem", "LeetCode Link": "N/A", "Check": false},
             {"Category": "String Algorithms", "Sub-Category": "Advanced Concepts", "Problem Name": "KMP Pattern Matching (Only Concept)", "LeetCode Link": "N/A", "Check": false},
             {"Category": "String Algorithms", "Sub-Category": "Advanced Concepts", "Problem Name": "Rabin Karp (Only Concept)", "LeetCode Link": "N/A", "Check": false},
-          
-  
-
-
-            {"Category": "DBMS", "Sub-Category": "DBMS", "Problem Name": "SQL Joins, Normalization, ACID", "LeetCode Link": "N/A", "Check": false},
-            {"Category": "OOP", "Sub-Category": "OOPs", "Problem Name": "OOPs Pillars with Real Examples", "LeetCode Link": "N/A", "Check": false},
-            {"Category": "CNS", "Sub-Category": "OS", "Problem Name": "Deadlock, Scheduling, Paging", "LeetCode Link": "N/A", "Check": false},
-             
+            {"Category": "String Algorithms", "Sub-Category": "String", "Problem Name": "Longest Palindromic Substring", "LeetCode Link": "https://leetcode.com/problems/longest-palindromic-substring/", "Check": false},
+            {"Category": "Graph Problems", "Sub-Category": "Graph", "Problem Name": "Number of Islands", "LeetCode Link": "https://leetcode.com/problems/number-of-islands/", "Check": false},
+            {"Category": "Graph Problems", "Sub-Category": "Graph", "Problem Name": "Clone Graph", "LeetCode Link": "https://leetcode.com/problems/clone-graph/", "Check": false},
+            {"Category": "Graph Problems", "Sub-Category": "Graph", "Problem Name": "Course Schedule", "LeetCode Link": "https://leetcode.com/problems/course-schedule/", "Check": false},
+            {"Category": "Graph Problems", "Sub-Category": "Graph", "Problem Name": "Course Schedule II", "LeetCode Link": "https://leetcode.com/problems/course-schedule-ii/", "Check": false},
+            {"Category": "Graph Problems", "Sub-Category": "Graph", "Problem Name": "Evaluate Division", "LeetCode Link": "https://leetcode.com/problems/evaluate-division/", "Check": false},
+            {"Category": "Intervals", "Sub-Category": "Intervals", "Problem Name": "Merge Intervals", "LeetCode Link": "https://leetcode.com/problems/merge-intervals/", "Check": false},
+            {"Category": "Intervals", "Sub-Category": "Intervals", "Problem Name": "Insert Interval", "LeetCode Link": "https://leetcode.com/problems/insert-interval/", "Check": false},
+            {"Category": "Other", "Sub-Category": "Other", "Problem Name": "Game of Life", "LeetCode Link": "https://leetcode.com/problems/game-of-life/", "Check": false},
+            {"Category": "Other", "Sub-Category": "Other", "Problem Name": "Surrounded Regions", "LeetCode Link": "https://leetcode.com/problems/surrounded-regions/", "Check": false},
+            {"Category": "Other", "Sub-Category": "Other", "Problem Name": "Jump Game", "LeetCode Link": "https://leetcode.com/problems/jump-game/", "Check": false},
+            {"Category": "Other", "Sub-Category": "Other", "Problem Name": "Letter Combinations of a Phone Number", "LeetCode Link": "https://leetcode.com/problems/letter-combinations-of-a-phone-number/", "Check": false},
+            {"Category": "Other", "Sub-Category": "Other", "Problem Name": "Combination Sum", "LeetCode Link": "https://leetcode.com/problems/combination-sum/", "Check": false},
+            {"Category": "Stack", "Sub-Category": "Stack", "Problem Name": "Basic Calculator", "LeetCode Link": "https://leetcode.com/problems/basic-calculator/", "Check": false},
+            {"Category": "Tree", "Sub-Category": "Binary Tree", "Problem Name": "Invert Binary Tree", "LeetCode Link": "https://leetcode.com/problems/invert-binary-tree/", "Check": false},
+            {"Category": "Tree", "Sub-Category": "Binary Tree", "Problem Name": "Maximum Depth of Binary Tree", "LeetCode Link": "https://leetcode.com/problems/maximum-depth-of-binary-tree/", "Check": false},
+            {"Category": "Tree", "Sub-Category": "Binary Tree", "Problem Name": "Diameter of Binary Tree", "LeetCode Link": "https://leetcode.com/problems/diameter-of-binary-tree/", "Check": false},
+            {"Category": "Tree", "Sub-Category": "Binary Tree", "Problem Name": "Symmetric Tree", "LeetCode Link": "https://leetcode.com/problems/symmetric-tree/", "Check": false},
+            {"Category": "Tree", "Sub-Category": "Binary Tree", "Problem Name": "Binary Tree Zigzag Level Order Traversal", "LeetCode Link": "https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/", "Check": false},
+            {"Category": "Tree", "Sub-Category": "Binary Tree", "Problem Name": "Construct Binary Tree from Preorder and Inorder Traversal", "LeetCode Link": "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/", "Check": false},
+            {"Category": "Tree", "Sub-Category": "Binary Tree", "Problem Name": "Flatten Binary Tree to Linked List", "LeetCode Link": "https://leetcode.com/problems/flatten-binary-tree-to-linked-list/", "Check": false},
+            {"Category": "Tree", "Sub-Category": "Binary Tree", "Problem Name": "Binary Tree Right Side View", "LeetCode Link": "https://leetcode.com/problems/binary-tree-right-side-view/", "Check": false},
+            {"Category": "Tree", "Sub-Category": "Binary Tree", "Problem Name": "Minimum Absolute Difference in BST", "LeetCode Link": "https://leetcode.com/problems/minimum-absolute-difference-in-bst/", "Check": false},
+            {"Category": "Tree", "Sub-Category": "Binary Tree", "Problem Name": "Kth Smallest Element in a BST", "LeetCode Link": "https://leetcode.com/problems/kth-smallest-element-in-a-bst/", "Check": false},
+            {"Category": "Tree", "Sub-Category": "Binary Tree", "Problem Name": "Path Sum", "LeetCode Link": "https://leetcode.com/problems/path-sum/", "Check": false},
+            {"Category": "Tree", "Sub-Category": "Binary Tree", "Problem Name": "Validate Binary Search Tree", "LeetCode Link": "https://leetcode.com/problems/validate-binary-search-tree/", "Check": false},
+            {"Category": "Tree", "Sub-Category": "Binary Tree", "Problem Name": "Construct Binary Tree from Inorder and Postorder Traversal", "LeetCode Link": "https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/", "Check": false},
+            {"Category": "Trie", "Sub-Category": "Trie", "Problem Name": "Implement Trie (Prefix Tree)", "LeetCode Link": "https://leetcode.com/problems/implement-trie-prefix-tree/", "Check": false},
+            {"Category": "Dynamic Programming", "Sub-Category": "DP", "Problem Name": "House Robber", "LeetCode Link": "https://leetcode.com/problems/house-robber/", "Check": false},
+            {"Category": "Dynamic Programming", "Sub-Category": "DP", "Problem Name": "Best Time to Buy and Sell Stock II", "LeetCode Link": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/", "Check": false},
+            {"Category": "Dynamic Programming", "Sub-Category": "DP", "Problem Name": "Maximal Square", "LeetCode Link": "https://leetcode.com/problems/maximal-square/", "Check": false},
+            {"Category": "Dynamic Programming", "Sub-Category": "DP", "Problem Name": "Minimum Path Sum", "LeetCode Link": "https://leetcode.com/problems/minimum-path-sum/", "Check": false},
+            {"Category": "Dynamic Programming", "Sub-Category": "DP", "Problem Name": "Longest Increasing Subsequence", "LeetCode Link": "https://leetcode.com/problems/longest-increasing-subsequence/", "Check": false},
+            {"Category": "Bit Manipulation", "Sub-Category": "Bits", "Problem Name": "Number of 1 Bits", "LeetCode Link": "https://leetcode.com/problems/number-of-1-bits/", "Check": false},
+            {"Category": "Bit Manipulation", "Sub-Category": "Bits", "Problem Name": "Bitwise AND of Numbers Range", "LeetCode Link": "https://leetcode.com/problems/bitwise-and-of-numbers-range/", "Check": false},
+            {"Category": "Bit Manipulation", "Sub-Category": "Bits", "Problem Name": "Single Number", "LeetCode Link": "https://leetcode.com/problems/single-number/", "Check": false},
+            {"Category": "Math", "Sub-Category": "Math", "Problem Name": "Palindrome Number", "LeetCode Link": "https://leetcode.com/problems/palindrome-number/", "Check": false},
+            {"Category": "Math", "Sub-Category": "Math", "Problem Name": "Sqrt(x)", "LeetCode Link": "https://leetcode.com/problems/sqrtx/", "Check": false},
+            {"Category": "Recursion & Backtracking", "Sub-Category": "Backtracking", "Problem Name": "Permutations", "LeetCode Link": "https://leetcode.com/problems/permutations/", "Check": false},
+            {"Category": "Recursion & Backtracking", "Sub-Category": "Backtracking", "Problem Name": "Subsets", "LeetCode Link": "https://leetcode.com/problems/subsets/", "Check": false},
+            {"Category": "String", "Sub-Category": "String", "Problem Name": "Longest Palindromic Substring", "LeetCode Link": "https://leetcode.com/problems/longest-palindromic-substring/", "Check": false},
+            {"Category": "Graph", "Sub-Category": "Graph", "Problem Name": "Number of Islands", "LeetCode Link": "https://leetcode.com/problems/number-of-islands/", "Check": false},
+            {"Category": "Graph", "Sub-Category": "Graph", "Problem Name": "Clone Graph", "LeetCode Link": "https://leetcode.com/problems/clone-graph/", "Check": false},
+            {"Category": "Graph", "Sub-Category": "Graph", "Problem Name": "Course Schedule", "LeetCode Link": "https://leetcode.com/problems/course-schedule/", "Check": false},
+            {"Category": "Graph", "Sub-Category": "Graph", "Problem Name": "Course Schedule II", "LeetCode Link": "https://leetcode.com/problems/course-schedule-ii/", "Check": false},
+            {"Category": "Graph", "Sub-Category": "Graph", "Problem Name": "Evaluate Division", "LeetCode Link": "https://leetcode.com/problems/evaluate-division/", "Check": false},
+            {"Category": "Intervals", "Sub-Category": "Intervals", "Problem Name": "Merge Intervals", "LeetCode Link": "https://leetcode.com/problems/merge-intervals/", "Check": false},
+            {"Category": "Intervals", "Sub-Category": "Intervals", "Problem Name": "Insert Interval", "LeetCode Link": "https://leetcode.com/problems/insert-interval/", "Check": false},
+            {"Category": "Other", "Sub-Category": "Other", "Problem Name": "Game of Life", "LeetCode Link": "https://leetcode.com/problems/game-of-life/", "Check": false},
+            {"Category": "Other", "Sub-Category": "Other", "Problem Name": "Surrounded Regions", "LeetCode Link": "https://leetcode.com/problems/surrounded-regions/", "Check": false},
+            {"Category": "Other", "Sub-Category": "Other", "Problem Name": "Jump Game", "LeetCode Link": "https://leetcode.com/problems/jump-game/", "Check": false},
+            {"Category": "Other", "Sub-Category": "Other", "Problem Name": "Letter Combinations of a Phone Number", "LeetCode Link": "https://leetcode.com/problems/letter-combinations-of-a-phone-number/", "Check": false},
+            {"Category": "Other", "Sub-Category": "Other", "Problem Name": "Combination Sum", "LeetCode Link": "https://leetcode.com/problems/combination-sum/", "Check": false},
         ];
+
+        // Find the index of the first 'Two Pointers' problem
+        const firstTwoPointersIdx = problemsData.findIndex(p => p.Category === 'Two Pointers');
+        if (firstTwoPointersIdx !== -1) {
+            problemsData.splice(firstTwoPointersIdx, 0,
+                {"Category": "Two Pointers", "Sub-Category": "Two Pointers", "Problem Name": "Remove Duplicates from Sorted Array", "LeetCode Link": "https://leetcode.com/problems/remove-duplicates-from-sorted-array/", "Check": false},
+                {"Category": "Two Pointers", "Sub-Category": "Two Pointers", "Problem Name": "Move Zeroes", "LeetCode Link": "https://leetcode.com/problems/move-zeroes/", "Check": false},
+                {"Category": "Two Pointers", "Sub-Category": "Two Pointers", "Problem Name": "Sort Colors (Dutch National Flag)", "LeetCode Link": "https://leetcode.com/problems/sort-colors/", "Check": false}
+            );
+        }
 
         let filteredData = [...problemsData];
 
